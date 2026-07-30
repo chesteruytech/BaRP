@@ -1,7 +1,7 @@
 <?php
 
-class Database {
-
+class Database
+{
     private $host = "localhost";
     private $dbname = "barangay_portal";
     private $username = "root";
@@ -9,29 +9,28 @@ class Database {
 
     public $conn;
 
-    public function connect(){
-
+    public function connect()
+    {
         $this->conn = null;
 
-        try{
+        try {
 
             $this->conn = new PDO(
-                "mysql:host=".$this->host.";dbname=".$this->dbname,
+                "mysql:host={$this->host};dbname={$this->dbname};charset=utf8",
                 $this->username,
                 $this->password
             );
 
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
 
-            echo "Connection Error: ".$e->getMessage();
+            die("Database Connection Failed: " . $e->getMessage());
 
         }
 
         return $this->conn;
-
     }
-
 }
 ?>
