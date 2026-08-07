@@ -1,5 +1,5 @@
 <?php
-$error = isset($_GET["error"]) ? $_GET["error"] : "";
+$error = $_GET["error"] ?? "";
 
 $errorHtml = "";
 if ($error == "email"){
@@ -12,7 +12,7 @@ elseif ($error == "empty"){
 
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Register - Barangay Resident Portal</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -29,17 +29,17 @@ elseif ($error == "empty"){
 
     <form action="controllers/RegisterCon.php" method="POST" style="text-align: left;">
 
-        <label>First Name</label>
-        <input type="text" name="first_name" class="form-control mb-3">
+        <label>First Name<span class="required">*</span></label>
+        <input type="text" name="first_name" class="form-control mb-3" required>
 
-        <label>Last Name</label>
-        <input type="text" name="last_name" class="form-control mb-3">
+        <label>Last Name<span class="required">*</span></label>
+        <input type="text" name="last_name" class="form-control mb-3" required>
 
-        <label>Email</label>
-        <input type="email" name="email" class="form-control mb-3">
+        <label>Email<span class="required">*</span></label>
+        <input type="email" name="email" class="form-control mb-3" required>
 
-        <label>Password</label>
-        <input type="password" name="password" class="form-control mb-3">
+        <label>Password<span class="required">*</span></label>
+        <input type="password" name="password" class="form-control mb-3" required>
 
         <label>Street Address</label>
         <input type="text" name="address" class="form-control mb-3">
