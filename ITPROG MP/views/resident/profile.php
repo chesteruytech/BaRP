@@ -25,10 +25,7 @@ $profileHtml = "";
 
 if (!$resident){
     $profileHtml = "<p>No resident record found for this account.</p>";
-}
-
-else{
-
+} else {
     $fullName = htmlspecialchars($resident["first_name"] . " " . $resident["middle_name"] . " " . $resident["last_name"]);
     $birthdate = htmlspecialchars($resident["birthdate"]);
     $gender = htmlspecialchars($resident["gender"]);
@@ -56,9 +53,36 @@ else{
     ";
 }
 
+    $documentHtml = "
+    <form action='' method='post' enctype='multipart/form-data'>
+        <table class='table table-bordered'>
+            <tr>
+                <th>Government-issued ID</th>
+                <td><input type='file' name='validID'></td>
+            </tr>
+            <tr>
+                <th>Community Tax Certificate</th>
+                <td><input type='file' name='cedula'></td>
+            </tr>
+            <tr>
+                <th>Proof of Residency</th>
+                <td><input type='file' name='residency'></td>
+            </tr>
+            <tr>
+                <th>Proof of Income</th>
+                <td><input type='file' name='income'></td>
+            </tr>
+            <tr>
+                <th>Business Registration</th>
+                <td><input type='file' name='businessRegister'></td>
+            </tr>
+        </table>
+    </form>
+    ";
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>My Profile - Barangay Resident Portal</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -84,7 +108,15 @@ else{
 
     <h2>My Profile</h2>
 
-    <?php echo $profileHtml; ?>
+    <?= $profileHtml; ?>
+
+</div>
+
+<div style="max-width: 700px; margin: 30px auto; padding: 20px; background: white; border: 1px solid #ddd; border-radius: 10px;"> <!--Document Dashboard-->
+
+    <h2>Documents</h2>
+
+    <?= $documentHtml; ?>
 
 </div>
 
