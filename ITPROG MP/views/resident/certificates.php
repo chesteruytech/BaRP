@@ -4,7 +4,7 @@ requireResident();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Certificates - Barangay Resident Portal</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -16,13 +16,16 @@ requireResident();
 <div style="background: #0d6efd; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
 
     <div>
-        <a href="profile.php" style="color: white; margin-right: 20px; text-decoration: none;">Profile</a>
-        <a href="programs.php" style="color: white; margin-right: 20px; text-decoration: none;">Programs</a>
-        <a href="applications.php" style="color: white; margin-right: 20px; text-decoration: none;">Applications</a>
-        <a href="certificates.php" style="color: white; text-decoration: none;">Certificates</a>
+        <b style="color: white; text-decoration: none; font-size: 20px">BaRP: Barangay Resident Portal</b>
     </div>
 
-    <a href="../../logout.php" class="btn btn-outline-light btn-sm">Logout</a>
+    <div>
+        <a href="programs.php" style="color: white; margin-right: 20px; text-decoration: none;">Programs</a>
+        <a href="certificates.php" style="color: white; margin-right: 20px; text-decoration: none;">Certificates</a>
+        <a href="applications.php" style="color: white; margin-right: 20px; text-decoration: none;">Applications</a>
+        <a href="profile.php" style="color: white; margin-right: 20px; text-decoration: none;">Profile</a>
+        <a href="../../logout.php" class="btn btn-outline-light btn-sm">Logout</a>
+    </div>
 
 </div>
 
