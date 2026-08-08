@@ -18,4 +18,18 @@ class Benefit
         $row = $stmt->fetch();
         return $row ?: null;
     }
+
+    public static function allWithRules(PDO $db): array
+    {
+        return $db->query("
+            SELECT b.*,
+                er.rule_id, er.minimum_age, er.maximum_age, er.required_sector,
+                er.required_income, er.household_limit, er.required_location,
+                er.requires_disaster_affected,
+                (SELECT COUNT(*) FROM benefit_requirements br WHERE br.benefit_id = b.benefit_id) AS requirement_count
+            FROM benefits b
+            LEFT JOIN eligibility_rules er ON er.benefit_id = b.benefit_id
+            ORDER BY b.category, b.benefit_name
+        ")->fetchAll();
+    }
 }
