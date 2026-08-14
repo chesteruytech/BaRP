@@ -125,7 +125,7 @@ function checkBenefitEligibility(PDO $db, array $resident, array $benefit): arra
  */
 function uploadDocument(PDO $db, int $residentID): array
 {
-    $documents = ['validID', 'cedula', 'residency', 'income', 'businessRegister'];
+    $documents = ['validID', 'senior', 'indigent', 'student'];
     $validatedDocuments = [];
     foreach ($documents as $documentType) {
         if (isset($_FILES[$documentType]) && $_FILES[$documentType]['error'] === UPLOAD_ERR_OK) {
