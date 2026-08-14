@@ -1,7 +1,10 @@
 <?php
 
+use Random\RandomException;
+
 require_once __DIR__ . "/../../config/session.php";
 require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../includes/helpers.php";
 
 requireResident();
 
@@ -53,7 +56,14 @@ if (!$resident){
     ";
 }
 
-    $documentHtml = "
+
+try {
+    uploadDocument();
+} catch (RandomException $e) {
+
+}
+
+$documentHtml = "
     <form action='' method='post' enctype='multipart/form-data'>
         <table class='table table-bordered'>
             <tr>

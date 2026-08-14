@@ -1,4 +1,8 @@
 <?php
+
+use JetBrains\PhpStorm\NoReturn;
+use Random\RandomException;
+
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/session.php';
 
@@ -16,6 +20,7 @@ function e($value): string
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
 
+#[NoReturn]
 function redirectWithMessage(string $url, string $key, string $message): void
 {
     $separator = str_contains($url, '?') ? '&' : '?';
@@ -113,6 +118,33 @@ function checkBenefitEligibility(PDO $db, array $resident, array $benefit): arra
     }
 
     return ['eligible' => empty($reasons), 'reasons' => $reasons, 'rule' => $rule];
+}
+
+/**
+ * @throws RandomException
+ */
+function uploadDocument(PDO $db, int $residentID): array
+{
+    $documents = ['validID', 'cedula', 'residency', 'income', 'businessRegister'];
+    $validatedDocuments = [];
+    foreach ($documents as $documentType) {
+        if (isset($_FILES[$documentType]) && $_FILES[$documentType]['error'] === UPLOAD_ERR_OK) {
+            $file = $_FILES[$documentType];
+            $ext = allowedUploadExtension($file['name']);
+            $path = ensureUploadDirectory() . bin2hex(random_bytes(16)) . '.' . $ext;
+            if (!move_uploaded_file($file['tmp_name'], $path)) {
+                throw new RuntimeException(
+                    "Failed to save $documentType."
+                );
+            }
+            $stmt = $db->prepare("INSERT INTO documents (resident_id, document_name, file_type, file_path)
+                                        VALUES                (:resident_id, :document_name, :file_type, :file_path)");
+            $stmt->execute([':resident_id' => $residentID, ':document_name' => $file['name'],
+                            ':file_type' => $ext, ':file_path' => $path]);
+            $validatedDocuments[] = $documentType;
+        }
+    }
+    return $validatedDocuments;
 }
 
 function allowedUploadExtension(string $name): string
