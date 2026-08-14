@@ -126,25 +126,23 @@ function checkBenefitEligibility(PDO $db, array $resident, array $benefit): arra
 function uploadDocument(PDO $db, int $residentID): array
 {
     $documents = ['validID', 'senior', 'indigent', 'student'];
-    $validatedDocuments = [];
+    $uploadedDocuments = [];
     foreach ($documents as $documentType) {
         if (isset($_FILES[$documentType]) && $_FILES[$documentType]['error'] === UPLOAD_ERR_OK) {
             $file = $_FILES[$documentType];
             $ext = allowedUploadExtension($file['name']);
             $path = ensureUploadDirectory() . bin2hex(random_bytes(16)) . '.' . $ext;
             if (!move_uploaded_file($file['tmp_name'], $path)) {
-                throw new RuntimeException(
-                    "Failed to save $documentType."
-                );
+                throw new RuntimeException("Failed to save $documentType.");
             }
             $stmt = $db->prepare("INSERT INTO documents (resident_id, document_name, file_type, file_path)
                                         VALUES                (:resident_id, :document_name, :file_type, :file_path)");
             $stmt->execute([':resident_id' => $residentID, ':document_name' => $file['name'],
                             ':file_type' => $ext, ':file_path' => $path]);
-            $validatedDocuments[] = $documentType;
+            $uploadedDocuments[] = $documentType;
         }
     }
-    return $validatedDocuments;
+    return $uploadedDocuments;
 }
 
 function allowedUploadExtension(string $name): string
@@ -155,7 +153,7 @@ function allowedUploadExtension(string $name): string
 
 function ensureUploadDirectory(): string
 {
-    $dir = __DIR__ . '/../uploads/documents';
+    $dir = __DIR__ . '/../uploads/documents/';
     if (!is_dir($dir)) {
         mkdir($dir, 0775, true);
     }

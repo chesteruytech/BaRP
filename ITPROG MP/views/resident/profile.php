@@ -1,7 +1,5 @@
 <?php
 
-use Random\RandomException;
-
 require_once __DIR__ . "/../../config/session.php";
 require_once __DIR__ . "/../../config/database.php";
 require_once __DIR__ . "/../../includes/helpers.php";
@@ -59,13 +57,15 @@ if (!$resident){
     ";
 }
 
-
-try {
-    if ($resident) {
-        uploadDocument($conn, $_SESSION["user_id"]);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!$resident) {
+        die('No resident record found; cannot upload documents.');
     }
-} catch (RandomException $e) {
-    die("File upload failed.");
+    try {
+        $uploadedDocuments = uploadDocument($conn, $resident['resident_id']);
+    } catch (Throwable $e) {
+        die($e->getMessage());
+    }
 }
 
 $documentHtml = "
@@ -73,19 +73,19 @@ $documentHtml = "
         <table class='table table-bordered'>
             <tr>
                 <th>Valid Barangay or Government ID</th>
-                <td><input type='file' name='validID'></td>
+                <td><input type='file' name='validID' onchange='this.form.submit()'></td>
             </tr>
             <tr>
                 <th>Senior Citizen ID</th>
-                <td><input type='file' name='senior'></td>
+                <td><input type='file' name='senior' onchange='this.form.submit()'></td>
             </tr>
             <tr>
                 <th>Proof of Low Income or Indigency</th>
-                <td><input type='file' name='indigent'></td>
+                <td><input type='file' name='indigent' onchange='this.form.submit()'></td>
             </tr>
             <tr>
                 <th>School ID or Proof of Enrollment</th>
-                <td><input type='file' name='student'></td>
+                <td><input type='file' name='student' onchange='this.form.submit()'></td>
             </tr>
         </table>
     </form>
