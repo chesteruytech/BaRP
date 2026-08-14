@@ -62,34 +62,30 @@ if (!$resident){
 
 try {
     if ($resident) {
-        uploadDocument($conn, (int) $resident['resident_id']);
+        uploadDocument($conn, $_SESSION["user_id"]);
     }
 } catch (RandomException $e) {
-
+    die("File upload failed.");
 }
 
 $documentHtml = "
     <form action='' method='post' enctype='multipart/form-data'>
         <table class='table table-bordered'>
             <tr>
-                <th>Government-issued ID</th>
+                <th>Valid Barangay or Government ID</th>
                 <td><input type='file' name='validID'></td>
             </tr>
             <tr>
-                <th>Community Tax Certificate</th>
-                <td><input type='file' name='cedula'></td>
+                <th>Senior Citizen ID</th>
+                <td><input type='file' name='senior'></td>
             </tr>
             <tr>
-                <th>Proof of Residency</th>
-                <td><input type='file' name='residency'></td>
+                <th>Proof of Low Income or Indigency</th>
+                <td><input type='file' name='indigent'></td>
             </tr>
             <tr>
-                <th>Proof of Income</th>
-                <td><input type='file' name='income'></td>
-            </tr>
-            <tr>
-                <th>Business Registration</th>
-                <td><input type='file' name='businessRegister'></td>
+                <th>School ID or Proof of Enrollment</th>
+                <td><input type='file' name='student'></td>
             </tr>
         </table>
     </form>
