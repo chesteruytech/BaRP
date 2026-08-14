@@ -23,7 +23,6 @@ $activePage = $activePage ?? '';
         <li class="nav-item"><a class="nav-link <?= $activePage==='profile'?'active':'' ?>" href="profile.php">Profile</a></li>
         <li class="nav-item"><a class="nav-link <?= $activePage==='programs'?'active':'' ?>" href="programs.php">Programs</a></li>
         <li class="nav-item"><a class="nav-link <?= $activePage==='applications'?'active':'' ?>" href="applications.php">Applications</a></li>
-        <li class="nav-item"><a class="nav-link <?= $activePage==='documents'?'active':'' ?>" href="documents.php">Documents</a></li>
         <li class="nav-item"><a class="nav-link <?= $activePage==='certificates'?'active':'' ?>" href="certificates.php">Certificates</a></li>
       </ul>
       <a href="../../logout.php" class="btn btn-outline-light btn-sm">Logout</a>
