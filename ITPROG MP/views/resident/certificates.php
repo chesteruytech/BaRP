@@ -11,10 +11,10 @@ $resident = currentResident($db);
 $types = $db->query("SELECT certificate_type_id, certificate_name FROM certificate_types ORDER BY certificate_name")->fetchAll();
 
 $stmt = $db->prepare("SELECT cr.request_id, ct.certificate_name, cr.status, cr.request_date
-                       FROM certificate_requests cr
-                       JOIN certificate_types ct ON ct.certificate_type_id = cr.certificate_type_id
-                       WHERE cr.resident_id = ?
-                       ORDER BY cr.request_date DESC");
+                            FROM certificate_requests cr
+                            JOIN certificate_types ct ON ct.certificate_type_id = cr.certificate_type_id
+                            WHERE cr.resident_id = ?
+                            ORDER BY cr.request_date DESC");
 $stmt->execute([$resident['resident_id']]);
 $requests = $stmt->fetchAll();
 
