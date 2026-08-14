@@ -8,10 +8,8 @@ $activePage = 'certificates';
 $db = portalDb();
 $resident = currentResident($db);
 
-// fetch available certificate types for the dropdown
 $types = $db->query("SELECT certificate_type_id, certificate_name FROM certificate_types ORDER BY certificate_name")->fetchAll();
 
-// fetch this resident's past/pending requests
 $stmt = $db->prepare("SELECT cr.request_id, ct.certificate_name, cr.status, cr.request_date
                        FROM certificate_requests cr
                        JOIN certificate_types ct ON ct.certificate_type_id = cr.certificate_type_id
@@ -34,7 +32,6 @@ include __DIR__ . '/../../includes/resident_header.php';
         </button>
     </div>
 
-    <!-- Request Modal -->
     <div class="modal fade" id="requestModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -63,7 +60,6 @@ include __DIR__ . '/../../includes/resident_header.php';
         </div>
     </div>
 
-    <!-- Request history -->
     <table class="table table-bordered">
         <thead>
         <tr><th>Document</th><th>Status</th><th>Requested On</th></tr>
