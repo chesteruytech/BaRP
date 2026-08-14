@@ -8,10 +8,13 @@ require_once __DIR__ . "/../../includes/helpers.php";
 
 requireResident();
 
+$pageTitle = 'My Profile';
+$activePage = 'profile';
+
 $database = new Database();
 $conn = $database->connect();
 
-$sql = "SELECT r.first_name, r.middle_name, r.last_name, r.birthdate, r.gender,
+$sql = "SELECT r.resident_id, r.first_name, r.middle_name, r.last_name, r.birthdate, r.gender,
                r.civil_status, r.contact_number, r.sector, r.verified,
                h.household_number, h.address, h.income_level
         FROM residents r
@@ -56,61 +59,44 @@ if (!$resident){
     ";
 }
 
+
 try {
-    uploadDocument($conn, $_SESSION["user_id"]);
+    if ($resident) {
+        uploadDocument($conn, (int) $resident['resident_id']);
+    }
 } catch (RandomException $e) {
-    die("File upload failed.");
+
 }
 
 $documentHtml = "
     <form action='' method='post' enctype='multipart/form-data'>
         <table class='table table-bordered'>
             <tr>
-                <th>Barangay or Government ID</th>
+                <th>Government-issued ID</th>
                 <td><input type='file' name='validID'></td>
             </tr>
             <tr>
-                <th>Senior Citizen</th>
-                <td><input type='file' name='senior'></td>
+                <th>Community Tax Certificate</th>
+                <td><input type='file' name='cedula'></td>
             </tr>
             <tr>
-                <th>Proof of Low Income or Indigency</th>
-                <td><input type='file' name='indigent'></td>
+                <th>Proof of Residency</th>
+                <td><input type='file' name='residency'></td>
             </tr>
             <tr>
-                <th>School ID / Proof of Enrollment</th>
-                <td><input type='file' name='student'></td>
+                <th>Proof of Income</th>
+                <td><input type='file' name='income'></td>
+            </tr>
+            <tr>
+                <th>Business Registration</th>
+                <td><input type='file' name='businessRegister'></td>
             </tr>
         </table>
     </form>
     ";
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>My Profile - Barangay Resident Portal</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assests/css/style.css">
-</head>
-
-<body style="background-color: #f4f6f9;">
-
-<div style="background: #0d6efd; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
-
-    <div>
-        <b style="color: white; text-decoration: none; font-size: 20px">BaRP: Barangay Resident Portal</b>
-    </div>
-
-    <div>
-        <a href="programs.php" style="color: white; margin-right: 20px; text-decoration: none;">Programs</a>
-        <a href="certificates.php" style="color: white; margin-right: 20px; text-decoration: none;">Certificates</a>
-        <a href="applications.php" style="color: white; margin-right: 20px; text-decoration: none;">Applications</a>
-        <a href="profile.php" style="color: white; margin-right: 20px; text-decoration: none;">Profile</a>
-        <a href="../../logout.php" class="btn btn-outline-light btn-sm">Logout</a>
-    </div>
-
-</div>
+<?php include __DIR__ . '/../../includes/resident_header.php'; ?>
 
 <div style="max-width: 700px; margin: 30px auto; padding: 20px; background: white; border: 1px solid #ddd; border-radius: 10px;">
 
@@ -128,5 +114,4 @@ $documentHtml = "
 
 </div>
 
-</body>
-</html>
+<?php include __DIR__ . '/../../includes/resident_footer.php'; ?>
